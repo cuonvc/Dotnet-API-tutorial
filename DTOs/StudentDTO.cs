@@ -1,5 +1,6 @@
-﻿namespace Demo {
-    public class Student {
+﻿namespace Demo.DTOs {
+    public class StudentDTO {
+
         public int Id { get; set; }
 
         public string Name { get; set; }
@@ -8,11 +9,10 @@
 
         public string Address { get; set; }
 
-        public Student () {
-
+        public StudentDTO () {
         }
 
-        public Student (int id, string name, int age, string address) {
+        public StudentDTO (int id, string name, int age, string address) {
             Id = id;
             Name = name;
             Age = age;

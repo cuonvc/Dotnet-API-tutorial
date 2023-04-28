@@ -1,10 +1,14 @@
 global using Demo.Data;
 global using Microsoft.EntityFrameworkCore;
+using Demo.Converter;
+using Demo.Services;
+using Demo.Services.Impl;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+builder.Services.AddTransient<StudentService, StudentServiceImpl>();
+builder.Services.AddSingleton<StudentConverter>();
 builder.Services.AddControllers();
 builder.Services.AddDbContext<DataContext>(options => {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DevConnection"));

@@ -12,12 +12,10 @@ namespace Demo.Converter {
             return student;
         }
 
-        public Student ToEntity(StudentDTO dto, Student entity) {
+        public void ToEntity(StudentDTO dto, Student entity) {
             entity.Name = dto.Name;
             entity.Address = dto.Address;
             entity.Age = dto.Age;
-
-            return entity;
         }
 
         public StudentDTO ToDTO(Student entity) {

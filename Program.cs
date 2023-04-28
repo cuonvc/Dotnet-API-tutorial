@@ -3,6 +3,7 @@ global using Microsoft.EntityFrameworkCore;
 using Demo.Converter;
 using Demo.Services;
 using Demo.Services.Impl;
+using Microsoft.AspNetCore.Diagnostics;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -7,7 +7,7 @@ namespace Demo.Services {
 
         ResponseObject<StudentDTO> getById (int id);
 
-        ResponseObject<List<StudentDTO>> getAllStudents();
+        ResponseObject<List<StudentDTO>> getAllStudents(int pageSize, int pageNo, string sortBy);
 
         ResponseObject<StudentDTO> update(StudentDTO student);
     }

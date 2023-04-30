@@ -35,8 +35,8 @@ namespace Demo.Controllers {
 
         [HttpGet]
         [Route("all")]
-        public IActionResult getAllStudents() {
-            ResponseObject<List<StudentDTO>> response = studentService.getAllStudents();
+        public IActionResult getAllStudents(int pageSize, int pageNo, string sortBy) {
+            ResponseObject<List<StudentDTO>> response = studentService.getAllStudents(pageSize, pageNo, sortBy);
             return Ok(response);
         }
 

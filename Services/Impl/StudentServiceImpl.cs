@@ -42,9 +42,13 @@ namespace Demo.Services.Impl {
             return responseObject.responseSuccess("Success", studentConverter.ToDTO(student));
         }
 
-        public ResponseObject<List<StudentDTO>> getAllStudents() {
+        public ResponseObject<List<StudentDTO>> getAllStudents(int pageSize, int pageNo, string sortBy) {
 
-            List<StudentDTO> datas = dataContext.Students.ToList()
+            List<StudentDTO> datas = dataContext.Set<Student>()
+                //tạm thời để mặc định sort by name
+                .OrderBy(student => student.Name)
+                .Skip((pageNo - 1) * pageSize)
+                .Take(pageSize)
                 .Select(student => studentConverter.ToDTO(student))
                 .ToList();
 

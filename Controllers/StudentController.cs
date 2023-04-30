@@ -1,4 +1,5 @@
 ﻿using Demo.DTOs;
+using Demo.DTOs.Response;
 using Demo.Services;
 using Demo.Services.Impl;
 using Microsoft.AspNetCore.Mvc;
@@ -17,32 +18,33 @@ namespace Demo.Controllers {
 
         [HttpPost]
         public IActionResult CreateStudent(StudentDTO studentDTO) {
-            StudentDTO newStudent = studentService.create(studentDTO);
-            return Ok(newStudent);
+            ResponseObject<StudentDTO> response = studentService.create(studentDTO);
+            return Ok(response);
         }
 
         [HttpGet]
         [Route("{id}")]
         public IActionResult GetStudent([FromRoute] int id) {
-            StudentDTO student = studentService.getById(id);
-            if (student == null) {
-                return NotFound("Student not found with id: " + id);
+            ResponseObject<StudentDTO> response = studentService.getById(id);
+            if (response.Code.Equals(StatusCodes.Status400BadRequest.ToString())) {
+                return NotFound(response);
             }
-            return Ok(student);
+
+            return Ok(response);
         }
 
         [HttpGet]
         [Route("all")]
         public IActionResult getAllStudents() {
-            List<StudentDTO> students = studentService.getAllStudents();
-            return Ok(students);
+            ResponseObject<List<StudentDTO>> response = studentService.getAllStudents();
+            return Ok(response);
         }
 
         [HttpPut]
         [Route("update/{id}")]
         public IActionResult updateStudent([FromRoute] int id, StudentDTO studentDTO) {
             studentDTO.Id = id;
-            StudentDTO student = studentService.update(studentDTO);
+            ResponseObject<StudentDTO> student = studentService.update(studentDTO);
             if (student == null) {
                 return NotFound("Student not found with id: " + id);
             }

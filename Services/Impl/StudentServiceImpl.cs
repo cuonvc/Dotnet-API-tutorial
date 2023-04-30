@@ -1,5 +1,6 @@
 ﻿using Demo.Converter;
 using Demo.DTOs;
+using Demo.DTOs.Response;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Demo.Services.Impl {
@@ -9,44 +10,61 @@ namespace Demo.Services.Impl {
 
         private readonly StudentConverter studentConverter;
 
+        // private readonly ResponseObject<StudentDTO> responseObject;
+        //
+        // private readonly ResponseObject<List<StudentDTO>> responseObjectList;
+
         public StudentServiceImpl (DataContext dataContext, StudentConverter studentConverter) {
             this.dataContext = dataContext;
             this.studentConverter = studentConverter;
         }
 
-        public StudentDTO create (StudentDTO studentDTO) {
+        public ResponseObject<StudentDTO> create (StudentDTO studentDTO) {
+
             Student student = studentConverter.ToEntity(studentDTO);
             dataContext.Students.Add(student);
             dataContext.SaveChanges();
 
-            return studentConverter.ToDTO(student);
+            ResponseObject<StudentDTO> responseObject = new ResponseObject<StudentDTO>();
+
+            return responseObject.responseSuccess("Created student successfully", studentConverter.ToDTO(student));
         }
 
-        public StudentDTO getById(int id) {
+        public ResponseObject<StudentDTO> getById(int id) {
+
+            ResponseObject<StudentDTO> responseObject = new ResponseObject<StudentDTO>();
+
             Student student = dataContext.Students.Find(id);
             if (student == null) {
-                return null;
+                return responseObject.responseError("Student not found with id: " + id, StatusCodes.Status400BadRequest.ToString(), null);
             }
-            return studentConverter.ToDTO(student);
-            
+
+            return responseObject.responseSuccess("Success", studentConverter.ToDTO(student));
         }
 
-        public List<StudentDTO> getAllStudents() {
-            return dataContext.Students.ToList()
+        public ResponseObject<List<StudentDTO>> getAllStudents() {
+
+            List<StudentDTO> datas = dataContext.Students.ToList()
                 .Select(student => studentConverter.ToDTO(student))
                 .ToList();
+
+            ResponseObject<List<StudentDTO>> responseObjectList = new ResponseObject<List<StudentDTO>>();
+            return responseObjectList.responseSuccess("Success", datas);
         }
 
-        public StudentDTO update(StudentDTO studentDTO) {
+        public ResponseObject<StudentDTO> update(StudentDTO studentDTO) {
+
+            ResponseObject<StudentDTO> responseObject = new ResponseObject<StudentDTO>();
 
             Student student = dataContext.Students.Find(studentDTO.Id);
             if (student == null) {
-                return null;
+                return responseObject.responseError("Student not found with idL " + studentDTO.Id,
+                    StatusCodes.Status404NotFound.ToString(), null);
             }
 
             studentConverter.ToEntity(studentDTO, student);
             dataContext.SaveChanges();
-            return studentConverter.ToDTO(student);
+            return responseObject.responseSuccess("Success", studentConverter.ToDTO(student));
 
         }
     }

@@ -1,13 +1,14 @@
 ﻿using Demo.DTOs;
+using Demo.DTOs.Response;
 
 namespace Demo.Services {
     public interface StudentService {
-        StudentDTO create(StudentDTO student);
+        ResponseObject<StudentDTO> create(StudentDTO student);
 
-        StudentDTO getById (int id);
+        ResponseObject<StudentDTO> getById (int id);
 
-        List<StudentDTO> getAllStudents();
+        ResponseObject<List<StudentDTO>> getAllStudents();
 
-        StudentDTO update(StudentDTO student);
+        ResponseObject<StudentDTO> update(StudentDTO student);
     }
 }

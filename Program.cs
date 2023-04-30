@@ -1,6 +1,8 @@
 global using Demo.Data;
 global using Microsoft.EntityFrameworkCore;
 using Demo.Converter;
+using Demo.DTOs;
+using Demo.DTOs.Response;
 using Demo.Services;
 using Demo.Services.Impl;
 using Microsoft.AspNetCore.Diagnostics;
@@ -9,6 +11,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddTransient<StudentService, StudentServiceImpl>();
+// builder.Services.AddSingleton(typeof(ResponseObject<>));
+// builder.Services.AddTransient<ResponseObject<StudentDTO>>();
+// builder.Services.AddTransient<ResponseObject<List<StudentDTO>>>();
 builder.Services.AddSingleton<StudentConverter>();
 builder.Services.AddControllers();
 builder.Services.AddDbContext<DataContext>(options => {

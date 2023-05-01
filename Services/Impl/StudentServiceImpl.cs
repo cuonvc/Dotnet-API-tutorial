@@ -46,7 +46,7 @@ namespace Demo.Services.Impl {
 
             List<StudentDTO> datas = dataContext.Set<Student>()
                 //tạm thời để mặc định sort by name
-                .OrderBy(student => student.Name)
+                .OrderBy(student => student.FirstName)
                 .Skip((pageNo - 1) * pageSize)
                 .Take(pageSize)
                 .Select(student => studentConverter.ToDTO(student))

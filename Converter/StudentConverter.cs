@@ -5,7 +5,9 @@ namespace Demo.Converter {
 
         public Student ToEntity(StudentDTO dto) {
             Student student = new Student();
-            student.Name = dto.Name;
+            student.FirstName = dto.FirstName;
+            student.LastName = dto.LastName;
+            student.Username = dto.Username;
             student.Address = dto.Address;
             student.Age = dto.Age;
 
@@ -13,7 +15,9 @@ namespace Demo.Converter {
         }
 
         public void ToEntity(StudentDTO dto, Student entity) {
-            entity.Name = dto.Name;
+            entity.FirstName = dto.FirstName;
+            entity.LastName = dto.LastName;
+            entity.Username = dto.Username;
             entity.Address = dto.Address;
             entity.Age = dto.Age;
         }
@@ -21,7 +25,9 @@ namespace Demo.Converter {
         public StudentDTO ToDTO(Student entity) {
             StudentDTO student = new StudentDTO();
             student.Id = entity.Id;
-            student.Name = entity.Name;
+            student.FirstName = entity.FirstName;
+            student.LastName = entity.LastName;
+            student.Username = entity.Username;
             student.Address = entity.Address;
             student.Age = entity.Age;
 

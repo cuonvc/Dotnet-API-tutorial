@@ -3,7 +3,11 @@
 
         public int Id { get; set; }
 
-        public string Name { get; set; }
+        public string FirstName { get; set; }
+        
+        public string LastName { get; set; }
+        
+        public string Username { get; set; }
 
         public int Age { get; set; }
 
@@ -12,9 +16,10 @@
         public StudentDTO () {
         }
 
-        public StudentDTO (int id, string name, int age, string address) {
+        public StudentDTO (int id, string firstName, string lastName, int age, string address) {
             Id = id;
-            Name = name;
+            FirstName = firstName;
+            LastName = lastName;
             Age = age;
             Address = address;
         }

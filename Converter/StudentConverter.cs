@@ -1,7 +1,15 @@
-﻿using Demo.DTOs;
+﻿using Demo.Configuration;
+using Demo.DTOs;
+using Demo.DTOs.Request;
 
 namespace Demo.Converter {
     public class StudentConverter {
+
+        private readonly SecurityConfiguration securityConfiguration;
+
+        public StudentConverter(SecurityConfiguration securityConfiguration) {
+            this.securityConfiguration = securityConfiguration;
+        }
 
         public Student ToEntity(StudentDTO dto) {
             Student student = new Student();
@@ -31,6 +39,18 @@ namespace Demo.Converter {
             student.Address = entity.Address;
             student.Age = entity.Age;
 
+            return student;
+        }
+
+        public Student regRequestToEntity(RegisterRequest request) {
+            string[] encoded = securityConfiguration.encodePassword(request.Password);
+
+            Student student = new Student();
+            student.Username = request.Username;
+            student.FirstName = request.FirstName;
+            student.LastName = request.LastName;
+            student.Password = encoded[1];
+            student.salt = encoded[0];
             return student;
         }
     }

@@ -42,15 +42,12 @@ namespace Demo.Converter {
             return student;
         }
 
-        public Student regRequestToEntity(RegisterRequest request) {
-            string[] encoded = securityConfiguration.encodePassword(request.Password);
-
-            Student student = new Student();
+        public Student RegRequestToEntity(RegisterRequest request) {
+            Student student = securityConfiguration.encodePassword(request);
+            
             student.Username = request.Username;
             student.FirstName = request.FirstName;
             student.LastName = request.LastName;
-            student.Password = encoded[1];
-            student.salt = encoded[0];
             return student;
         }
     }

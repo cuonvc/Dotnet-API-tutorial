@@ -10,15 +10,12 @@ namespace Demo.Services.Impl {
 
         private readonly StudentConverter studentConverter;
 
-        // private readonly ResponseObject<StudentDTO> responseObject;
-        //
-        // private readonly ResponseObject<List<StudentDTO>> responseObjectList;
-
         public StudentServiceImpl (DataContext dataContext, StudentConverter studentConverter) {
             this.dataContext = dataContext;
             this.studentConverter = studentConverter;
         }
 
+        //break
         public ResponseObject<StudentDTO> create (StudentDTO studentDTO) {
 
             Student student = studentConverter.ToEntity(studentDTO);

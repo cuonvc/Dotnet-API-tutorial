@@ -1,12 +1,14 @@
 ﻿using Demo.DTOs;
 using Demo.DTOs.Response;
 using Demo.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Demo.Controllers {
 
     [ApiController]
-    [Route("api/[controller]")]
+    [Authorize]
+    [Route("api/student/")]
     public class StudentController : Controller {
 
         private readonly StudentService studentService;

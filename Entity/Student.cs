@@ -11,20 +11,20 @@ namespace Demo {
         public string FirstName { get; set; }
         
         public string LastName { get; set; }
-        
+
         public string Username { get; set; }
         
         public string Password { get; set; }
         
-        public string salt { get; set; }
+        public byte[] salt { get; set; }
 
-        public int Age { get; set; }
+        public int Age { get; set; } = 0;
 
-        public string Address { get; set; }
+        public string Address { get; set; } = string.Empty;
 
-        public Major? Major { get; set; }
+        public Major Major { get; set; } = new Major();
 
-        public List<Subject>? Subjects { get; set; }
+        public List<Subject> Subjects { get; set; } = new List<Subject>();
 
         public Student () {
 

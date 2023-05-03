@@ -13,7 +13,7 @@ public class Major {
 
     public ICollection<Student> Students { get; set; } = new List<Student>();
 
-    public List<Subject> Subjects { get; } = new();
+    public List<Subject> Subjects { get; } = new List<Subject>();
 
     public Major() {
     }

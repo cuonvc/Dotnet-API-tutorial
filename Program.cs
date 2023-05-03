@@ -46,10 +46,12 @@ builder.Services.AddAuthentication(options => {
             (Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])),
         ValidateIssuer = true,
         ValidateAudience = true,
-        ValidateLifetime = false,
+        ValidateLifetime = true,
         ValidateIssuerSigningKey = true
     };
 });
+
+builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
@@ -60,36 +62,6 @@ if (app.Environment.IsDevelopment()) {
 }
 
 app.UseHttpsRedirection();
-
-app.MapPost("/security/login", [AllowAnonymous] (Student user) => {
-    if (user.Username.Equals("usernameTest")  && user.Password.Equals("testPassword")) {
-        var issuer = builder.Configuration["Jwt:Issuer"];
-        var audience = builder.Configuration["Jwt:Audience"];
-        var key = Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"]);
-        var tokenDescriptor = new SecurityTokenDescriptor {
-            Subject = new ClaimsIdentity(new[] {
-                new Claim("Id", Guid.NewGuid().ToString()),
-                new Claim(JwtRegisteredClaimNames.Sub, user.Username),
-                new Claim(JwtRegisteredClaimNames.Email, user.Username),
-                new Claim(JwtRegisteredClaimNames.Jti,
-                    Guid.NewGuid().ToString())
-            }),
-            Expires = DateTime.UtcNow.AddMinutes(5),
-            Issuer = issuer,
-            Audience = audience,
-            SigningCredentials = new SigningCredentials
-            (new SymmetricSecurityKey(key),
-                SecurityAlgorithms.HmacSha512Signature)
-        };
-        var tokenHandler = new JwtSecurityTokenHandler();
-        var token = tokenHandler.CreateToken(tokenDescriptor);
-        var jwtToken = tokenHandler.WriteToken(token);
-        var stringToken = tokenHandler.WriteToken(token);
-        return Results.Ok(stringToken);
-    }
-
-    return Results.Unauthorized();
-});
 
 app.UseAuthentication();
 app.UseAuthorization();

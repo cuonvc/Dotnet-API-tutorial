@@ -62,14 +62,11 @@ public class AuthServiceImpl : AuthService {
 
     private string generateToken(Student student) {
         List<Claim> claims = new List<Claim> {
-            new Claim("Id", student.Id.ToString()),
-            new Claim("Username", student.Username),
-            new Claim("FristName", student.FirstName),
-            new Claim("LastName", student.LastName)
+            new Claim("Username", student.Username)
         };
 
-        var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(
-            configuration.GetSection("Jwt:Key").Value));
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
+            configuration.GetSection("Jwt:Secret-key").Value!));
         var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
         var token = new JwtSecurityToken(
             claims: claims,

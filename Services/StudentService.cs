@@ -10,5 +10,7 @@ namespace Demo.Services {
         ResponseObject<List<StudentDTO>> getAllStudents(int pageSize, int pageNo, string sortBy);
 
         ResponseObject<StudentDTO> update(StudentDTO student);
+
+        String getName();
     }
 }

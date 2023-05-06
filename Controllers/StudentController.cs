@@ -1,13 +1,14 @@
 ﻿using Demo.DTOs;
 using Demo.DTOs.Response;
 using Demo.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Demo.Controllers {
 
     [ApiController]
-    [Authorize]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/student/")]
     public class StudentController : Controller {
 
@@ -15,6 +16,11 @@ namespace Demo.Controllers {
 
         public StudentController(StudentService studentService) {
             this.studentService = studentService;
+        }
+
+        [HttpGet]
+        public ActionResult<String> getName() {
+            return Ok(studentService.getName());
         }
 
         [HttpPost]

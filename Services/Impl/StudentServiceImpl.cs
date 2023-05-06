@@ -1,4 +1,5 @@
-﻿using Demo.Converter;
+﻿using System.Security.Claims;
+using Demo.Converter;
 using Demo.DTOs;
 using Demo.DTOs.Response;
 using Microsoft.AspNetCore.Mvc;
@@ -9,10 +10,14 @@ namespace Demo.Services.Impl {
         private readonly DataContext dataContext;
 
         private readonly StudentConverter studentConverter;
+        
+        private readonly IHttpContextAccessor httpContextAccessor;
 
-        public StudentServiceImpl (DataContext dataContext, StudentConverter studentConverter) {
+        public StudentServiceImpl (DataContext dataContext, StudentConverter studentConverter,
+            IHttpContextAccessor contextAccessor) {
             this.dataContext = dataContext;
             this.studentConverter = studentConverter;
+            this.httpContextAccessor = contextAccessor;
         }
 
         //break
@@ -67,6 +72,15 @@ namespace Demo.Services.Impl {
             dataContext.SaveChanges();
             return responseObject.responseSuccess("Success", studentConverter.ToDTO(student));
 
+        }
+
+        public string getName() {
+            var result = string.Empty;
+            if (httpContextAccessor.HttpContext is not null) {
+                result = httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Name);
+            }
+
+            return result;
         }
     }
 }

@@ -14,10 +14,10 @@ namespace Demo.Services.Impl {
         private readonly IHttpContextAccessor httpContextAccessor;
 
         public StudentServiceImpl (DataContext dataContext, StudentConverter studentConverter,
-            IHttpContextAccessor contextAccessor) {
+            IHttpContextAccessor httpContextAccessor) {
             this.dataContext = dataContext;
             this.studentConverter = studentConverter;
-            this.httpContextAccessor = contextAccessor;
+            this.httpContextAccessor = httpContextAccessor;
         }
 
         //break
@@ -32,13 +32,18 @@ namespace Demo.Services.Impl {
             return responseObject.responseSuccess("Created student successfully", studentConverter.ToDTO(student));
         }
 
-        public ResponseObject<StudentDTO> getById(int id) {
+        public ResponseObject<StudentDTO> getProfile() {
 
             ResponseObject<StudentDTO> responseObject = new ResponseObject<StudentDTO>();
 
-            Student student = dataContext.Students.Find(id);
+            string username = httpContextAccessor.HttpContext.User.FindFirst("Username").Value;
+
+            Student student = dataContext.Students
+                .FromSql($"SELECT * FROM Students WHERE Username = {username}")
+                .FirstOrDefault();
+            
             if (student == null) {
-                return responseObject.responseError("Student not found with id: " + id, StatusCodes.Status400BadRequest.ToString(), null);
+                return responseObject.responseError("Student not found with username: " + username, StatusCodes.Status400BadRequest.ToString(), null);
             }
 
             return responseObject.responseSuccess("Success", studentConverter.ToDTO(student));
@@ -72,15 +77,6 @@ namespace Demo.Services.Impl {
             dataContext.SaveChanges();
             return responseObject.responseSuccess("Success", studentConverter.ToDTO(student));
 
-        }
-
-        public string getName() {
-            var result = string.Empty;
-            if (httpContextAccessor.HttpContext is not null) {
-                result = httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Name);
-            }
-
-            return result;
         }
     }
 }

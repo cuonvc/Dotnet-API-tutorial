@@ -62,6 +62,7 @@ public class AuthServiceImpl : AuthService {
 
     private string generateToken(Student student) {
         List<Claim> claims = new List<Claim> {
+            new Claim("Id", student.Id.ToString()),
             new Claim("Username", student.Username)
         };
 

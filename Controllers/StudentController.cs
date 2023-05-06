@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace Demo.Controllers {
 
     [ApiController]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/student/")]
     public class StudentController : Controller {
 
@@ -18,11 +17,6 @@ namespace Demo.Controllers {
             this.studentService = studentService;
         }
 
-        [HttpGet]
-        public ActionResult<String> getName() {
-            return Ok(studentService.getName());
-        }
-
         [HttpPost]
         public IActionResult CreateStudent(StudentDTO studentDTO) {
             ResponseObject<StudentDTO> response = studentService.create(studentDTO);
@@ -30,9 +24,10 @@ namespace Demo.Controllers {
         }
 
         [HttpGet]
-        [Route("{id}")]
-        public IActionResult GetStudent([FromRoute] int id) {
-            ResponseObject<StudentDTO> response = studentService.getById(id);
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [Route("profile")]
+        public IActionResult GetStudent() {
+            ResponseObject<StudentDTO> response = studentService.getProfile();
             if (response.Code.Equals(StatusCodes.Status400BadRequest.ToString())) {
                 return NotFound(response);
             }

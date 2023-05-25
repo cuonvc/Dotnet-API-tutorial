@@ -6,7 +6,11 @@ namespace Demo.Services;
 
 public interface AuthService {
 
-    ResponseObject<string> regAccount(RegisterRequest request);
+    ResponseObject<Student> regAccount(RegisterRequest request);
 
-    ResponseObject<string> login(LoginRequest request);
+    ResponseObject<RefreshTokenResponse> login(LoginRequest request);
+
+    ResponseObject<RefreshTokenResponse> renewAccess(RefreshTokenRequest request);
+
+    void logout();
 }

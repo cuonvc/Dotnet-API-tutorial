@@ -1,6 +1,7 @@
 global using Demo.Data;
 global using Microsoft.EntityFrameworkCore;
 using System.Text;
+using System.Text.Json.Serialization;
 using Demo.Configuration;
 using Demo.Converter;
 using Demo.Services;
@@ -15,10 +16,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddTransient<StudentService, StudentServiceImpl>();
+builder.Services.AddTransient<RefreshTokenService, RefreshTokenServiceImpl>();
 builder.Services.AddTransient<AuthService, AuthServiceImpl>();
 builder.Services.AddSingleton<StudentConverter>();
 builder.Services.AddSingleton<SecurityConfiguration>();
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddTransient<HttpContextAccessor>();
 builder.Services.AddDbContext<DataContext>(options => {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DevConnection"));
 });

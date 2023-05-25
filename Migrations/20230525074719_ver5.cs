@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace Demo.Migrations
 {
     /// <inheritdoc />
-    public partial class ver4 : Migration
+    public partial class ver5 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -87,6 +88,28 @@ namespace Demo.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "RefreshTokens",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Token = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ExpireDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    StudentId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RefreshTokens", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_RefreshTokens_Students_StudentId",
+                        column: x => x.StudentId,
+                        principalTable: "Students",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "StudentSubject",
                 columns: table => new
                 {
@@ -116,6 +139,11 @@ namespace Demo.Migrations
                 column: "SubjectsId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_RefreshTokens_StudentId",
+                table: "RefreshTokens",
+                column: "StudentId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Students_MajorId",
                 table: "Students",
                 column: "MajorId");
@@ -131,6 +159,9 @@ namespace Demo.Migrations
         {
             migrationBuilder.DropTable(
                 name: "MajorSubject");
+
+            migrationBuilder.DropTable(
+                name: "RefreshTokens");
 
             migrationBuilder.DropTable(
                 name: "StudentSubject");

@@ -21,16 +21,16 @@ namespace Demo.Services.Impl {
         }
 
         //break
-        public ResponseObject<StudentDTO> create (StudentDTO studentDTO) {
-
-            Student student = studentConverter.ToEntity(studentDTO);
-            dataContext.Students.Add(student);
-            dataContext.SaveChanges();
-
-            ResponseObject<StudentDTO> responseObject = new ResponseObject<StudentDTO>();
-
-            return responseObject.responseSuccess("Created student successfully", studentConverter.ToDTO(student));
-        }
+        // public ResponseObject<StudentDTO> create (StudentDTO studentDTO) {
+        //
+        //     Student student = studentConverter.ToEntity(studentDTO);
+        //     dataContext.Students.Add(student);
+        //     dataContext.SaveChanges();
+        //
+        //     ResponseObject<StudentDTO> responseObject = new ResponseObject<StudentDTO>();
+        //
+        //     return responseObject.responseSuccess("Created student successfully", studentConverter.ToDTO(student));
+        // }
 
         public ResponseObject<StudentDTO> getProfile() {
 

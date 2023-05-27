@@ -17,11 +17,11 @@ namespace Demo.Controllers {
             this.studentService = studentService;
         }
 
-        [HttpPost]
-        public IActionResult CreateStudent(StudentDTO studentDTO) {
-            ResponseObject<StudentDTO> response = studentService.create(studentDTO);
-            return Ok(response);
-        }
+        // [HttpPost]
+        // public IActionResult CreateStudent(StudentDTO studentDTO) {
+        //     ResponseObject<StudentDTO> response = studentService.create(studentDTO);
+        //     return Ok(response);
+        // }
 
         [HttpGet]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]

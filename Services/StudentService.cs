@@ -3,7 +3,7 @@ using Demo.DTOs.Response;
 
 namespace Demo.Services {
     public interface StudentService {
-        ResponseObject<StudentDTO> create(StudentDTO student);
+        // ResponseObject<StudentDTO> create(StudentDTO student);
 
         ResponseObject<StudentDTO> getProfile();
 

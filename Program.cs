@@ -1,5 +1,6 @@
 global using Demo.Data;
 global using Microsoft.EntityFrameworkCore;
+using System.Net.WebSockets;
 using System.Text;
 using System.Text.Json.Serialization;
 using Demo.Configuration;
@@ -17,6 +18,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddTransient<StudentService, StudentServiceImpl>();
 builder.Services.AddTransient<RefreshTokenService, RefreshTokenServiceImpl>();
+builder.Services.AddTransient<WebSocketService, WebSocketServiceImpl>();
 builder.Services.AddTransient<AuthService, AuthServiceImpl>();
 builder.Services.AddSingleton<StudentConverter>();
 builder.Services.AddSingleton<SecurityConfiguration>();
@@ -39,6 +41,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 });
 
 builder.Services.AddControllers();
+// builder.WebHost.UseUrls("http://localhost:8080");
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -60,6 +63,8 @@ if (app.Environment.IsDevelopment()) {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseWebSockets();
 
 app.UseHttpsRedirection();
 
